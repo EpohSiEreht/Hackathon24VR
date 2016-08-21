@@ -4,51 +4,71 @@
     <meta charset="utf-8">
     <title>Hello, World! - A-Frame</title>
     <meta name="description" content="Hello, World! - A-Frame">
-    <script type="text/javascript" src="assets/js/aframe.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://aframe.io/releases/0.3.0/aframe.min.js"></script>
+    <script src="https://rawgit.com/ngokevin/aframe-look-at-component/master/dist/aframe-look-at-component.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/nunjucks/2.3.0/nunjucks.min.js"></script>
     <script src="https://rawgit.com/ngokevin/aframe-layout-component/master/dist/aframe-layout-component.min.js"></script>
-    <script src="assets/js/template-component.js"></script>
-    <script type="text/javascript" src="assets/js/entity.js"></script>
+    <script src="https://rawgit.com/ngokevin/aframe-template-component/master/dist/aframe-template-component.min.js"></script>
+    <script src="https://rawgit.com/ngokevin/aframe-text-component/master/dist/aframe-text-component.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
     <script type="text/javascript" src="assets/js/three.js"></script>
+    <script type="text/javascript" src="assets/js/entity.js"></script>
+    <script type="text/javascript" src="assets/js/score.js"></script>
+    <script type="text/javascript" src="assets/js/timer.js"></script>
   </head>
   <body>
 
       <a-scene>
         <a-assets>
           <img id="enemy-sprite" crossorigin="" src="assets/img/cat.png">
-          <img id="grass" src="assets/img/grass.jpg">
+          <img id="grass" crossorigin="" src="assets/img/grass.jpg">
+          <img id="start" src="assets/img/start.png">
+          <audio id="meow" src="assets/audio/meow.mp3">
+          <audio id="bg-music" loop src="/assets/audio/background.mp3"></audio>
 
           <script id="enemies" type="text/x-nunjucks-template">
-            <a-entity layout="type: circle; radius: 5" position="0 0.5 0">
-              <a-animation attribute="rotation" dur="30000" easing="linear" repeat="indefinite" to="0 360 0"></a-animation>
-
-              {% for x in range(num) %}
-                <a-image class="enemy" look-at="#player" src="#enemy-sprite" transparent="true">
+            {% for x in range(num) %}
+            <a-entity layout="type: circle; radius: 5" random-position>
+                <a-image class="enemy" look-at="#player" src="#enemy-sprite" transparent="true" click-cat="on: click; target: #enemy-sprite;" sound="on: click; src: #meow" text>
                   <!-- Attach collision handler animations. -->
-                  <a-animation attribute="opacity" begin="collider-hit" dur="400"  
-                               ease="linear" from="1" to="0"></a-animation>
-                  <a-animation attribute="scale" begin="collider-hit" dur="400"
-                               ease="linear" to="0 0 0"></a-animation>
+                  <a-animation attribute="opacity" begin="click" dur="400" ease="linear" from="1" to="0"></a-animation>
+                  <a-animation attribute="scale" begin="click" dur="400" ease="linear" to="0 0 0"></a-animation>
                 </a-image>
-              {% endfor %}
             </a-entity>
+            {% endfor %}
           </script>
-          
-          <!-- Attach collider to laser. -->
-          <a-mixin id="laser"
-                   geometry="primitive: cylinder; radius: 0.05; translate: 0 -2 0"
-                   material="color: green; metalness: 0.2; opacity: 0.4; roughness: 0.3"
-                   rotation="90 0 0" projectile collider="target: .enemy"></a-mixin>
+
         </a-assets>
 
-        <a-entity template="src: #enemies" data-num="10"></a-entity>
+        <a-entity id="score" text="text: 0;" position="-0.20 1 -2" look-at="#player"></a-entity>
 
-        <a-camera id="player" position="0 1.8 0" spawner="mixin: laser; on: click" click-listener>
-          <a-cursor color="red" />
+        <a-entity id="time" text="text: 2:00;" position="-2 1 -2" look-at="#player" count></a-entity>
+
+        <a-entity template="src: #enemies" data-num="20"></a-entity>
+
+        <!-- Menu Button -->
+         <a-entity id="start" position="0 1 -2" scale=".5 .5 .5" look-at="#player">
+           <a-image id="start" src="#start" width="4" height="1" opacity="1" set-hover>
+              <a-animation attribute="scale" from="1 0 1" to="0.75 0.75 0.75" delay="1500"
+                          dur="200" fill="both" easing="ease-out"></a-animation>
+              <a-animation attribute="position" from="0 -3 0" to="0 -0.7 0" delay="1000"
+                          dur="1000" fill="both" easing="ease-out"></a-animation>
+              <a-event name="mouseenter" scale="0.9 0.9 0.9"></a-event>
+              <a-event name="mouseleave" scale=".75 .75 .75"></a-event>
+              <a-event name="click" link="/index.html"></a-event>
+           </a-image>
+         </a-entity>
+
+        <a-entity id="music"  position="-10 1 -2" look-at="#player" sound="src: #bg-music; autoplay: true"></a-entity>
+
+        <a-camera id="player" position="0 1.8 0" click-listener>
+          <a-cursor color="red">
         </a-camera>
 
         <a-sky src="#grass"></a-sky>
       </a-scene>
+
 
   </body>
 </html>

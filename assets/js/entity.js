@@ -45,8 +45,8 @@ AFRAME.registerComponent('collider', {
       target.object.el.emit('collider-hit', {target: el});
     });
   }
-});  
-  
+});
+
 // projectile component to have an entity travel straight.
 AFRAME.registerComponent('projectile', {
   schema: {
@@ -56,8 +56,8 @@ AFRAME.registerComponent('projectile', {
   tick: function () {
     this.el.object3D.translateY(this.data.speed);
   }
-});  
-  
+});
+
 // spawner component to generate an entity on an event.
 AFRAME.registerComponent('spawner', {
   schema: {
@@ -108,6 +108,7 @@ AFRAME.registerComponent('click-listener', {
   init: function () {
     var el = this.el;
     window.addEventListener('click', function () {
+      console.log(el, 'clicked');
       el.emit('click', null, false);
     });
   }

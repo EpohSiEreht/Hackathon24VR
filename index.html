@@ -2,80 +2,59 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="apple-mobile-web-app-capable" />
     <title>Hello, World! - A-Frame</title>
     <meta name="description" content="Hello, World! - A-Frame">
     <script src="https://aframe.io/releases/0.3.0/aframe.min.js"></script>
-    <script src="https://rawgit.com/ngokevin/aframe-animation-component/master/dist/aframe-animation-component.min.js"></script>
-    <script src="https://rawgit.com/ngokevin/aframe-randomizer-components/master/dist/aframe-randomizer-components.min.js"></script>
-    <script src="https://rawgit.com/ngokevin/aframe-layout-component/master/dist/aframe-layout-component.min.js"></script>
-    <script src="https://rawgit.com/ngokevin/aframe-template-component/master/dist/aframe-template-component.min.js"></script>
   </head>
   <body>
     <a-scene>
-      <a-assets> 
-          <a-asset-item id="object" src="source/cat-obj/cat.obj"></a-asset-item>
-          <a-asset-item id="material" src="source/cat-obj/cat.mtl"></a-asset-item>
-
-          <audio id="meow" src="meow.mp3">
-
-          <script id="cats" type="text/x-nunjucks-template">
-            <a-entity scale="0.1 0.1 0.1" layout="type: circle; radius: 10" position="0 1 -1">
-              <a-animation attribute="rotation" dur="30000" easing="linear" repeat="indefinite" to="0 360 0"></a-animation>
-
-              {% for x in range(num) %}
-                <a-obj-model class="class" look-at="#player" src="#object" random-color>
-                  <!-- Attach collision handler animations. -->
-                  <a-animation attribute="opacity" begin="click" dur="400"  
-                               ease="linear" from="1" to="0"></a-animation>
-                  <a-animation attribute="scale" begin="click" dur="400"
-                               ease="linear" to="0 0 0"></a-animation>
-                </a-obj-model>
-              {% endfor %}
-
-            </a-entity>
-
-          </script>
-
+      <a-assets>
+        <img id="logo" src="assets/img/logo.png">
+        <img id="grass" src="assets/img/grass.jpg">
+        <img id="start" src="assets/img/start.png">
+        <a-mixin id="board" geometry="depth: .05; height: 1; width: 6" material="shader: flat" pivot="0 0.5 0" position="0 -1 0"></a-mixin>
+        <a-mixin id="unhinge" attribute="rotation" to="0 0 0" dur="1000" fill="both"></a-mixin>
       </a-assets>
 
-      <a-entity template="src: #cats" data-num="10" sound="src: meow.mp3; on: click"></a-entity>
 
-      <a-entity scale="0.1 0.1 0.1" position="-1 1 -1" sound="src: meow.mp3; on: click">
-        <a-obj-model src="#object" color="#4CC3D9">
-          <a-animation attribute="rotation" begin="click" repeat="indefinte" to="0 360 0"></a-animation>
-        </a-obj-model>
+      <!-- MENU ENTITY -->
+      <a-entity>
+          <!-- Logo -->
+          <a-entity id="logo" position="0 4 -3" scale="1.5 1.5 1.5">
+            <a-image id="logo" src="#logo" width="4" height="1" opacity="1">
+              <a-animation attribute="scale" from="1 0 1" to="0.75 0.75 0.75" delay="1000"
+                           dur="200" fill="both" easing="ease-out"></a-animation>
+              <a-animation attribute="position" from="0 -3 0" to="0 -0.7 0" delay="500"
+                           dur="1000" fill="both" easing="ease-out"></a-animation>
+            </a-image>
+          </a-entity>
+          <!-- Start Button -->
+          <a-entity id="start" position="0 2.2 -3" scale=".5 .5 .5">
+            <a-image id="start" src="#start" width="4" height="1" opacity="1">
+              <a-animation attribute="scale" from="1 0 1" to="0.75 0.75 0.75" delay="1500"
+                           dur="200" fill="both" easing="ease-out"></a-animation>
+              <a-animation attribute="position" from="0 -3 0" to="0 -0.7 0" delay="1000"
+                           dur="1000" fill="both" easing="ease-out"></a-animation>
+            </a-image>
+          </a-entity>
+          <!-- Tutorial Button -->
+          <a-entity id="how" position="0 1.6 -3" scale=".5 .5 .5">
+            <a-image id="how" src="#start" width="4" height="1" opacity="1">
+              <a-animation attribute="scale" from="1 0 1" to="0.75 0.75 0.75" delay="2000"
+                           dur="200" fill="both" easing="ease-out"></a-animation>
+              <a-animation attribute="position" from="0 -3 0" to="0 -0.7 0" delay="1500"
+                           dur="1000" fill="both" easing="ease-out"></a-animation>
+            </a-image>
+          </a-entity>
+
+          <a-camera position="0 7 5">
+            <a-cursor color="red" />
+          </a-camera>
+          <a-sky src="#grass"></a-sky>
       </a-entity>
 
-      <a-entity scale="0.1 0.1 0.1" position="0 1 -1">
-        <a-obj-model src="#object" color="red">
-          <a-animation attribute="rotation" begin="click" repeat="indefinte" to="0 360 0"></a-animation>
-        </a-obj-model>
-      </a-entity>
-
-      <a-entity scale="0.5 0.5 0.5" position="1 1 -1">
-        <a-cylinder color="#F55" radius="0.1"
-                    animation="property: color; dir: alternate; dur: 1000;
-                               easing: easeInSine; loop: true; to: #5F5"
-                    animation__scale="property: scale; dir: alternate; dur: 200;
-                               easing: easeInSine; loop: true; to: 1.2 1 1.2"
-                    animation__yoyo="property: position; dir: alternate; dur: 1000;
-                                     easing: easeInSine; loop: true; to: 0 2 0">
-        </a-cylinder>
-      </a-entity>
-
-      <a-light type="spot" color="#333" position="-20 0 0" look-at="a-box"></a-light>
-      <a-light type="point" color="#AAA" position="0 5 0"></a-light>
-
-      <a-camera id="player" position="0 1.8 0" spawner="assets: object; on: click" click-listener>
-        <a-cursor color="#2E3A87">
-      </a-camera>
-
-      <a-sky color="#73F7DD"></a-sky>
+      
 
     </a-scene>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script src="js/script.js" type="text/javascript" charset="utf-8" async defer></script>
   </body>
 </html>

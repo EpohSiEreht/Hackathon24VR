@@ -4,99 +4,57 @@
     <meta charset="utf-8">
     <title>Hello, World! - A-Frame</title>
     <meta name="description" content="Hello, World! - A-Frame">
-    <script type="text/javascript" src="assets/js/aframe.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/nunjucks/2.3.0/nunjucks.min.js"></script>
-    <script src="https://rawgit.com/ngokevin/aframe-layout-component/master/dist/aframe-layout-component.min.js"></script>
-    <script src="assets/js/template-component.js"></script>
-    <script type="text/javascript" src="assets/js/entity.js"></script>
-    <script type="text/javascript" src="assets/js/three.js"></script>
+    <script src="https://aframe.io/releases/0.3.0/aframe.min.js"></script>
   </head>
   <body>
-    <!-- <a-scene> -->
-      <!-- <a-assets>
+    <a-scene>
+      <a-assets>
         <img id="logo" src="assets/img/logo.png">
         <img id="grass" src="assets/img/grass.jpg">
         <img id="start" src="assets/img/start.png">
         <a-mixin id="board" geometry="depth: .05; height: 1; width: 6" material="shader: flat" pivot="0 0.5 0" position="0 -1 0"></a-mixin>
         <a-mixin id="unhinge" attribute="rotation" to="0 0 0" dur="1000" fill="both"></a-mixin>
-      </a-assets> -->
-
-      <a-scene>
-        <a-assets>
-          <img id="enemy-sprite" crossorigin="" src="assets/img/cat.png">
-          <img id="grass" src="assets/img/grass.jpg">
-
-          <script id="enemies" type="text/x-nunjucks-template">
-            <a-entity layout="type: circle; radius: 5" position="0 0.5 0">
-              <a-animation attribute="rotation" dur="30000" easing="linear" repeat="indefinite" to="0 360 0"></a-animation>
-
-              {% for x in range(num) %}
-                <a-image class="enemy" look-at="#player" src="#enemy-sprite" transparent="true">
-                  <!-- Attach collision handler animations. -->
-                  <a-animation attribute="opacity" begin="collider-hit" dur="400"  
-                               ease="linear" from="1" to="0"></a-animation>
-                  <a-animation attribute="scale" begin="collider-hit" dur="400"
-                               ease="linear" to="0 0 0"></a-animation>
-                </a-image>
-              {% endfor %}
-            </a-entity>
-          </script>
-          
-          <!-- Attach collider to laser. -->
-          <a-mixin id="laser"
-                   geometry="primitive: cylinder; radius: 0.05; translate: 0 -2 0"
-                   material="color: green; metalness: 0.2; opacity: 0.4; roughness: 0.3"
-                   rotation="90 0 0" projectile collider="target: .enemy"></a-mixin>
-        </a-assets>
-
-        <a-entity template="src: #enemies" data-num="10"></a-entity>
-
-        <a-camera id="player" position="0 1.8 0" spawner="mixin: laser; on: click" click-listener>
-          <a-cursor color="red" />
-        </a-camera>
-
-        <a-sky src="#grass"></a-sky>
-      </a-scene>
+      </a-assets>
 
 
       <!-- MENU ENTITY -->
-      <!-- <a-entity> -->
+      <a-entity>
           <!-- Logo -->
-          <!-- <a-entity id="logo" position="0 4 -3" scale="1.5 1.5 1.5">
+          <a-entity id="logo" position="0 4 -3" scale="1.5 1.5 1.5">
             <a-image id="logo" src="#logo" width="4" height="1" opacity="1">
               <a-animation attribute="scale" from="1 0 1" to="0.75 0.75 0.75" delay="1000"
                            dur="200" fill="both" easing="ease-out"></a-animation>
               <a-animation attribute="position" from="0 -3 0" to="0 -0.7 0" delay="500"
                            dur="1000" fill="both" easing="ease-out"></a-animation>
             </a-image>
-          </a-entity> -->
+          </a-entity>
           <!-- Start Button -->
-          <!-- <a-entity id="start" position="0 2.2 -3" scale=".5 .5 .5">
+          <a-entity id="start" position="0 2.2 -3" scale=".5 .5 .5">
             <a-image id="start" src="#start" width="4" height="1" opacity="1">
               <a-animation attribute="scale" from="1 0 1" to="0.75 0.75 0.75" delay="1500"
                            dur="200" fill="both" easing="ease-out"></a-animation>
               <a-animation attribute="position" from="0 -3 0" to="0 -0.7 0" delay="1000"
                            dur="1000" fill="both" easing="ease-out"></a-animation>
             </a-image>
-          </a-entity> -->
+          </a-entity>
           <!-- Tutorial Button -->
-          <!-- <a-entity id="how" position="0 1.6 -3" scale=".5 .5 .5">
+          <a-entity id="how" position="0 1.6 -3" scale=".5 .5 .5">
             <a-image id="how" src="#start" width="4" height="1" opacity="1">
               <a-animation attribute="scale" from="1 0 1" to="0.75 0.75 0.75" delay="2000"
                            dur="200" fill="both" easing="ease-out"></a-animation>
               <a-animation attribute="position" from="0 -3 0" to="0 -0.7 0" delay="1500"
                            dur="1000" fill="both" easing="ease-out"></a-animation>
             </a-image>
-          </a-entity> -->
+          </a-entity>
 
-          <!-- <a-camera position="0 7 5">
+          <a-camera position="0 7 5">
             <a-cursor color="red" />
-          </a-camera> -->
-          <!-- <a-sky src="#grass"></a-sky> -->
-      <!-- </a-entity> -->
+          </a-camera>
+          <a-sky src="#grass"></a-sky>
+      </a-entity>
 
       
 
-    <!-- </a-scene> -->
+    </a-scene>
   </body>
 </html>

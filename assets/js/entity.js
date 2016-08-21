@@ -1,3 +1,23 @@
+AFRAME.registerComponent('cat-click', {
+
+  schema: {
+    on: {type: 'string'},
+    target: {type: 'selector'}
+  },
+
+  init: function () {
+    var data = this.data;
+    var el = this.el;
+    var catCount = 0;
+    el.addEventListener(data.on, function () {
+      catCount++;
+      console.log("cat_count:",catCount)
+
+    });
+  }
+
+});
+
 // collider component to check for collisions.
 AFRAME.registerComponent('collider', {
   schema: {
@@ -108,8 +128,9 @@ AFRAME.registerComponent('click-listener', {
   init: function () {
     var el = this.el;
     window.addEventListener('click', function () {
-      console.log(el, 'clicked');
       el.emit('click', null, false);
     });
   }
 });
+var count = 1;
+localStorage.setItem('playerscore', JSON.stringify(count));

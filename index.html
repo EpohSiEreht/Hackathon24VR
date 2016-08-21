@@ -26,7 +26,13 @@
             <a-entity layout="type: circle; radius: 5" position="0 0.5 0">
               <a-animation attribute="rotation" dur="30000" easing="linear" repeat="indefinite" to="0 360 0"></a-animation>
               {% for x in range(num) %}
-                <a-image class="enemy" look-at="#player" src="#enemy-sprite" transparent="true">
+                <a-image class="enemy" look-at="#player" src="#enemy-sprite" transparent="true"
+                cat-click="on: click; target: #enemy-sprite">
+
+
+
+
+
                   <!-- Attach collision handler animations. -->
                   <a-animation attribute="opacity" begin="collider-hit" dur="800"
                                ease="linear" from="1" to="0"></a-animation>

@@ -2,53 +2,57 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Hello, World! - A-Frame</title>
-    <meta name="description" content="Hello, World! - A-Frame">
-    <script type="text/javascript" src="assets/js/aframe.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/nunjucks/2.3.0/nunjucks.min.js"></script>
+    <meta name="apple-mobile-web-app-capable" />
+    <title>Meow!</title>
+    <meta name="description" content="Meow!">
+    <script src="https://aframe.io/releases/0.3.0/aframe.min.js"></script>
+    <script src="https://rawgit.com/ngokevin/aframe-animation-component/master/dist/aframe-animation-component.min.js"></script>
+    <script src="https://rawgit.com/ngokevin/aframe-randomizer-components/master/dist/aframe-randomizer-components.min.js"></script>
     <script src="https://rawgit.com/ngokevin/aframe-layout-component/master/dist/aframe-layout-component.min.js"></script>
-    <script src="assets/js/template-component.js"></script>
-    <script type="text/javascript" src="assets/js/entity.js"></script>
-    <script type="text/javascript" src="assets/js/three.js"></script>
+    <script src="https://rawgit.com/ngokevin/aframe-template-component/master/dist/aframe-template-component.min.js"></script>
   </head>
   <body>
-
-      <a-scene>
-        <a-assets>
-          <img id="enemy-sprite" crossorigin="" src="assets/img/cat.png">
+    <a-scene>
+      <a-assets> 
           <img id="grass" src="assets/img/grass.jpg">
+          <a-asset-item id="cat" src="assets/obj/cat.obj"></a-asset-item>
 
-          <script id="enemies" type="text/x-nunjucks-template">
-            <a-entity layout="type: circle; radius: 5" position="0 0.5 0">
+          <audio id="meow" src="assets/audio/meow.mp3">
+
+          <script id="cats" type="text/x-nunjucks-template">
+            <a-entity scale="0.1 0.1 0.1" layout="type: circle; radius: 20" position="0 1 -1">
               <a-animation attribute="rotation" dur="30000" easing="linear" repeat="indefinite" to="0 360 0"></a-animation>
 
               {% for x in range(num) %}
-                <a-image class="enemy" look-at="#player" src="#enemy-sprite" transparent="true">
+                <a-obj-model class="cat" look-at="#player" src="#cat" sound="on: click; src: #meow" random-color>
                   <!-- Attach collision handler animations. -->
-                  <a-animation attribute="opacity" begin="collider-hit" dur="400"  
+                  <a-animation attribute="opacity" begin="click" dur="400"  
                                ease="linear" from="1" to="0"></a-animation>
-                  <a-animation attribute="scale" begin="collider-hit" dur="400"
+                  <a-animation attribute="scale" begin="click" dur="400"
                                ease="linear" to="0 0 0"></a-animation>
-                </a-image>
+                </a-obj-model>
               {% endfor %}
+
             </a-entity>
+
           </script>
-          
-          <!-- Attach collider to laser. -->
-          <a-mixin id="laser"
-                   geometry="primitive: cylinder; radius: 0.05; translate: 0 -2 0"
-                   material="color: green; metalness: 0.2; opacity: 0.4; roughness: 0.3"
-                   rotation="90 0 0" projectile collider="target: .enemy"></a-mixin>
-        </a-assets>
 
-        <a-entity template="src: #enemies" data-num="10"></a-entity>
+      </a-assets>
 
-        <a-camera id="player" position="0 1.8 0" spawner="mixin: laser; on: click" click-listener>
-          <a-cursor color="red" />
-        </a-camera>
+      <a-entity template="src: #cats" data-num="10" sound="src: meow.mp3; on: click"></a-entity>
 
-        <a-sky src="#grass"></a-sky>
-      </a-scene>
+      <a-light type="spot" color="#333" position="-20 0 0" look-at="a-box"></a-light>
+      <a-light type="point" color="#AAA" position="0 5 0"></a-light>
 
+      <a-camera id="player" position="0 1.8 0">
+        <a-cursor color="#2E3A87">
+      </a-camera>
+
+      <a-sky src="#grass"></a-sky>
+
+    </a-scene>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="assets/script.js" type="text/javascript" charset="utf-8" async defer></script>
   </body>
 </html>

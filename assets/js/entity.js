@@ -1,3 +1,5 @@
+var cat_count = 0;
+
 // collider component to check for collisions.
 AFRAME.registerComponent('collider', {
   schema: {

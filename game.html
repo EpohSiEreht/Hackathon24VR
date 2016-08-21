@@ -24,7 +24,9 @@
               <a-animation attribute="rotation" dur="30000" easing="linear" repeat="indefinite" to="0 360 0"></a-animation>
 
               {% for x in range(num) %}
-                <a-obj-model class="cat" look-at="#player" src="#cat" sound="on: click; src: #meow" random-color>
+                <a-obj-model class="cat" look-at="#player" src="#cat" 
+                cat-click="on: click; target: #cat"
+                sound="on: click; src: #meow" random-color>
                   <!-- Attach collision handler animations. -->
                   <a-animation attribute="opacity" begin="click" dur="400"  
                                ease="linear" from="1" to="0"></a-animation>

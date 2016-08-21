@@ -18,24 +18,28 @@ AFRAME.registerComponent('cat-click', {
   init: function () {
     var data = this.data;
     var el = this.el;
+    var update_count = document.getElementById("update_count");
 
     el.addEventListener(data.on, function () {
     	cat_count++;
-      console.log("cat_count:",cat_count)
-
+    	update_count.
+      console.log("cat_count:",cat_count);
     });
   }
 
 });
 
-// // click-listener component to pass window clicks to an entity.
-// AFRAME.registerComponent('cat-click', {
-//   init: function () {
-//   	var data = this.data;
-//     var el = this.el;
-//     this.addEventListener('click', function () {
-//       el.emit('click', null, false);
-//       console.log("cat-click")
-//     });
-//   }
-// });
+AFRAME.registerComponent('update-cat', {
+	schema: {
+    text: {type: 'string'}
+  },
+
+  init: function () {
+  	var data = this.data;
+    var el = this.el;
+
+    window.addEventListener('click', function () {
+      data.text = cat_count;
+    });
+  }
+});
